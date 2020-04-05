@@ -2,6 +2,7 @@ package github
 
 import (
 	"fmt"
+	"os"
 	"encoding/json"
 
 	"github.com/baileyjm02/jexia-discord-bot/internal/types"
@@ -14,7 +15,7 @@ func StartWatching() {
 
 // TODO: Add comments
 func createDiscordAPIPayload(embed map[string]interface{}) types.DiscordAPIPayload {
-	channel := "695357176482365530"
+	channel := os.Getenv("channel")
 	payload := types.Message{Embed: embed}
 	byteArray, err := json.Marshal(payload)
 	if err != nil {
