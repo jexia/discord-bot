@@ -104,5 +104,7 @@ func send(payload types.DiscordAPIPayload) {
 		panic(err)
 		return
 	}
+	fmt.Println(resp)
+
 	defer resp.Body.Close()
 }

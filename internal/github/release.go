@@ -29,10 +29,10 @@ func handleGithubRelease(wh types.Webhook) {
 	
 	DiscordAPIPayload := createDiscordAPIPayload(map[string]interface{}{
 		"color": 0xF9B200,
-		"title": fmt.Sprintf("New Release (%v)", wh.Release.TagName),
+		"title": fmt.Sprintf("%v (%v)", wh.Release.Name, wh.Release.TagName),
 		// "url": "https://jexia.com",
 		"author": map[string]string{
-			"name":     wh.Repository.FullName,
+			"name": fmt.Sprintf("New release of %v", wh.Repository.FullName),
 			"icon_url": wh.Repository.Owner.AvatarURL,
 			"url":      wh.Release.HTMLURL,
 		},

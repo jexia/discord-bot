@@ -41,7 +41,7 @@ func (s *Session) startHeartbeat() {
 func (s *Session) send(payload interface{}) error {
 	err := wsjson.Write(s.Ctx, s.Conn, payload)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 	return err
 }
@@ -74,7 +74,8 @@ func (s *Session) Accept() error {
 	payload, err := s.read()
 	if err != nil {
 		// return err - no need to return this error
-		return nil
+		return nil		
+		log.Println(err)
 	}
 	// log.Printf("Got message: %#v\n", payload)
 	go s.Deploy(payload)
@@ -132,7 +133,7 @@ func (s *Session) Deploy(payload Payload) {
 					Queue.Publish("discord.message_create", message)
 					var err error
 					if err != nil {
-						// Handled elsewhere
+						log.Println(err)
 					}
 				}
 			}
@@ -165,7 +166,7 @@ func (s *Session) IdentifySelf() {
 		},
 	})
 	if err != nil {
-		log.Fatalln(err)
+		log.Println(err)
 	}
 	payload := Payload{
 		2,
@@ -175,6 +176,7 @@ func (s *Session) IdentifySelf() {
 	}
 	err = s.send(&payload)
 	if err != nil {
+		log.Println(err)
 	}
 }
 
