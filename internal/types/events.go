@@ -19,11 +19,7 @@ type EventBus struct {
 // TODO: Add comments
 type Bus interface {
 	Publish(topic string, data interface{})
-
 	Subscribe(topic string, ch DataChannel)
-
-	// Close closes the kafka consumer, all topic subscriptions and event channels.
-	Close() error
 }
 
 // TODO: Add comments
