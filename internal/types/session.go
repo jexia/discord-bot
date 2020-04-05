@@ -62,7 +62,7 @@ func (s *Session) Spin(exit chan bool) {
 	for {
 		err := s.Accept()
 		if err != nil {
-			s.ReConnect()
+			s.Reconnect()
 			exit <- true
 			break
 		}
@@ -86,16 +86,16 @@ func (s *Session) Deploy(payload Payload) {
 	s.Sequence = payload.Sequence
 	switch payload.OPCode {
 
-	// ReConnect
+	// Reconnect
 	case 7:
 		{
-			go s.ReConnect()
+			go s.Reconnect()
 		}
 
 	// InvalID Session
 	case 9:
 		{
-			go s.ReConnect()
+			go s.Reconnect()
 		}
 
 	// Heartbeat ACK
@@ -141,7 +141,7 @@ func (s *Session) Deploy(payload Payload) {
 }
 
 // TODO: Add comments
-func (s *Session) ReConnect() {
+func (s *Session) Reconnect() {
 	time.Sleep(500 * time.Millisecond)
 	s.Connect()
 }
@@ -185,7 +185,9 @@ func (s *Session) Connect() {
 
 	c, _, err := websocket.Dial(s.Ctx, s.URL, nil)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		go s.Reconnect()
+		return
 	}
 	s.Conn = c
 
