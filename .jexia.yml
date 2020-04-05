@@ -1,0 +1,6 @@
+ 
+language: golang
+port: 80
+run:
+ - go build -o bot-binary
+ - ./bot-binary
