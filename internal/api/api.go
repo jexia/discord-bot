@@ -2,6 +2,7 @@ package api
 
 import (
 	"log"
+	"os"
 	"net/http"
 
 	"github.com/baileyjm02/jexia-discord-bot/internal/discord"
@@ -21,5 +22,9 @@ func Start() {
 	http.HandleFunc("/github", github.Webhook)
 
 	// Start the HTTP server ()
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	port := os.Getenv("port")
+	if port == "" {
+		port = "8080"
+	}
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
