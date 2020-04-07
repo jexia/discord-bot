@@ -21,9 +21,9 @@ func Start() {
 
 	// Add the endpoint for github webhook payloads
 	http.HandleFunc("/github", github.Webhook)
-	http.HandleFunc("/xyz", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Hi there, this is working.")
-	})
+// 	http.HandleFunc("/xyz", func(w http.ResponseWriter, r *http.Request) {
+// 		fmt.Fprintf(w, "Hi there, this is working.")
+// 	})
 
 	// Start the HTTP server ()
 	port := os.Getenv("port")
