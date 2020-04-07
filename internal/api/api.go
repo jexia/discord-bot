@@ -3,7 +3,7 @@ package api
 import (
 	"log"
 	"os"
-	"fmt"
+// 	"fmt"
 	"net/http"
 
 	"github.com/baileyjm02/jexia-discord-bot/internal/discord"
