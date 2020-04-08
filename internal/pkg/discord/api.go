@@ -32,7 +32,7 @@ func sendMessage(payload interface{}) {
 	case APIPayload:
 		data = v.Payload
 		url = v.APIURL
-	case APIEmbedPayload: 
+	case APIEmbedPayload:
 		data = v.Payload
 		url = v.APIURL
 	}

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/baileyjm02/jexia-discord-bot/internal/pkg/events"
 	"github.com/baileyjm02/jexia-discord-bot/internal/pkg/discord"
+	"github.com/baileyjm02/jexia-discord-bot/internal/pkg/events"
 )
 
 // TODO: Add comments

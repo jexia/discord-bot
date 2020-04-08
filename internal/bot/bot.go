@@ -1,9 +1,10 @@
 package bot
 
 import (
-	"github.com/sirupsen/logrus"
 	"net/http"
 	"os"
+
+	"github.com/sirupsen/logrus"
 
 	"github.com/baileyjm02/jexia-discord-bot/internal/pkg/commands"
 	"github.com/baileyjm02/jexia-discord-bot/internal/pkg/discord"

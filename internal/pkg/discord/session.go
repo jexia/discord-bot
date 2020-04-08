@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	Token string
+	Token  string
 	Prefix string
 )
 
@@ -189,7 +189,7 @@ func (s *Session) Connect() {
 	// Set global variables
 	Token = s.Token
 	Prefix = s.Prefix
-	
+
 	Ctx := context.Background()
 	s.Ctx = Ctx
 

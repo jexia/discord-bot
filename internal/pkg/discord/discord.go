@@ -2,8 +2,8 @@ package discord
 
 import (
 	"encoding/json"
-	"time"
 	"fmt"
+	"time"
 )
 
 // TODO: Add comments
@@ -62,7 +62,7 @@ type APIPayload struct {
 }
 
 // TODO: Add comments
-func (p *APIPayload) Prepare(content, channel string) (error) {
+func (p *APIPayload) Prepare(content, channel string) error {
 	payload := Message{Content: content}
 	byteArray, err := json.Marshal(payload)
 	if err != nil {
@@ -81,7 +81,7 @@ type APIEmbedPayload struct {
 }
 
 // TODO: Add comments
-func (p *APIEmbedPayload) Prepare(embed map[string]interface{}, channel string) (error) {
+func (p *APIEmbedPayload) Prepare(embed map[string]interface{}, channel string) error {
 	payload := Message{Embed: embed}
 	byteArray, err := json.Marshal(payload)
 	if err != nil {
