@@ -13,7 +13,7 @@ func RepoCommand(m discord.Message, parameters []string) (discord.APIPayload, er
 	var val string
 
 	if len(parameters) < 1 {
-		return discord.APIPayload{}, errors.New("No parameters passed.")
+		return discord.APIPayload{}, errors.New("No parameters passed")
 	}
 
 	if parameters[0] == "add" {
@@ -39,8 +39,8 @@ func init() {
 			"repo":   true,
 		},
 		false,
-		true,
-		RepoCommand,
+		false, // Disabled while in dev
+		repoCommand,
 	}
 
 	repo.Register()

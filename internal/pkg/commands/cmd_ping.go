@@ -7,7 +7,7 @@ import (
 	"github.com/baileyjm02/jexia-discord-bot/internal/pkg/discord"
 )
 
-// TODO: Add comment
+// pingCommand is a simple command returning the response time of the bot
 func pingCommand(m discord.Message, parameters []string) (discord.APIPayload, error) {
 	var check time.Time
 	var payload discord.APIPayload
@@ -24,7 +24,7 @@ func pingCommand(m discord.Message, parameters []string) (discord.APIPayload, er
 	return payload, err
 }
 
-// TODO: Add comment
+// This init command registers the ping command to the array of Commands so it can be called
 func init() {
 	ping := Command{
 		"ping",

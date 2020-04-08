@@ -3,7 +3,6 @@ package commands
 import (
 	"fmt"
 	"strings"
-	"github.com/sirupsen/logrus"
 
 	"github.com/baileyjm02/jexia-discord-bot/internal/pkg/discord"
 	"github.com/baileyjm02/jexia-discord-bot/internal/pkg/events"
@@ -30,8 +29,6 @@ func StartSubscriber() {
 // checkCommand checks if the message event received contains the prefix and
 // a subsequent command from the array of pre-populated commands
 func checkCommand(m discord.Message) {
-	logrus.Println("Checking Command")
-	logrus.Println("prefix is: "+discord.Prefix)
 	// Checks if the message starts with the command prefix
 	if !strings.HasPrefix(m.Content, discord.Prefix) {
 
@@ -56,32 +53,36 @@ func checkCommand(m discord.Message) {
 	go runCommand(m, command)
 }
 
-// TODO: Refractor into smaller functions and improve error handling when the error is handled (err.New)
+// runCommand takes a array of strings and checks if the first value is a command.
+// If a command is found, it is then run with the remaining parameters of the array.
 func runCommand(m discord.Message, command []string) {
-	logrus.Println("Running command: "+command[0] )
-
+	// Searches for command if it is registered in the array
 	if cmd, ok := Commands[command[0]]; ok {
+		// Handles an unexpected panic error
 		defer func() {
 			if err := recover(); err != nil {
-				var payload discord.APIPayload
-				_ = payload.Prepare(fmt.Sprintf("Unhandled panic occurred: `%v`", err), m.ChannelID)
-				events.Queue.Publish("discord.send_response", payload)
+				handleError(m, fmt.Sprintf("Unhandled panic occurred: `%v`", err))
 				return
 			}
 		}()
+		// Removes the command name from the array of parameters
 		parameters := command[1:]
+		// Runs the command using the function passed through into the type
 		response, err := cmd.Run(m, parameters)
-		logrus.Println(response)
+		// Handles an _expected_ error
 		if err != nil {
-			var payload discord.APIPayload
-			_ = payload.Prepare(fmt.Sprintf("Command Error: `%v`", err.Error()), m.ChannelID)
-			events.Queue.Publish("discord.send_response", payload)
+			handleError(m, fmt.Sprintf("Command Error: `%v`", err.Error()))
 			return
 		}
-		logrus.Println("Response sent")
+		// Publishes the response to be sent to discord
 		events.Queue.Publish("discord.send_response", response)
 	}
 }
 
-// TODO: Create 'handleError' function
-func handleError() {}
+// handleError is a helper function for returning useful error information to the user
+// when a command fails to exectue correctly
+func handleError(m discord.Message, errorText string) {
+	var payload discord.APIPayload
+	_ = payload.Prepare(errorText, m.ChannelID)
+	events.Queue.Publish("discord.send_response", payload)
+}
