@@ -3,9 +3,9 @@ package discord
 import (
 	"context"
 	"encoding/json"
-	"log"
 	"time"
 
+	"github.com/sirupsen/logrus"
 	"nhooyr.io/websocket"
 	"nhooyr.io/websocket/wsjson"
 
@@ -48,7 +48,7 @@ func (s *Session) startHeartbeat() {
 func (s *Session) send(payload interface{}) error {
 	err := wsjson.Write(s.Ctx, s.Conn, payload)
 	if err != nil {
-		log.Println(err)
+		logrus.Error(err)
 	}
 	return err
 }
@@ -58,7 +58,7 @@ func (s *Session) read() (Payload, error) {
 	var payload Payload
 	err := wsjson.Read(s.Ctx, s.Conn, &payload)
 	if err != nil {
-		log.Fatalf("s.read: %v", err)
+		logrus.Fatalf("s.read: %v", err)
 		return Payload{}, err
 	}
 	return payload, nil
@@ -81,9 +81,8 @@ func (s *Session) spin(exit chan bool) {
 func (s *Session) accept() error {
 	payload, err := s.read()
 	if err != nil {
-		// return err - no need to return this error
+		logrus.Error(err)
 		return nil
-		log.Println(err)
 	}
 	go s.deploy(payload)
 	return nil
@@ -140,7 +139,7 @@ func (s *Session) deploy(payload Payload) {
 					events.Queue.Publish("discord.message_create", message)
 					var err error
 					if err != nil {
-						log.Println(err)
+						logrus.Error(err)
 					}
 				}
 			}
@@ -175,7 +174,7 @@ func (s *Session) identifySelf() {
 		},
 	})
 	if err != nil {
-		log.Println(err)
+		logrus.Error(err)
 	}
 	payload := Payload{
 		2,
@@ -185,7 +184,7 @@ func (s *Session) identifySelf() {
 	}
 	err = s.send(&payload)
 	if err != nil {
-		log.Println(err)
+		logrus.Error(err)
 	}
 }
 
@@ -200,7 +199,7 @@ func (s *Session) Connect() {
 
 	c, _, err := websocket.Dial(s.Ctx, s.URL, nil)
 	if err != nil {
-		log.Println(err)
+		logrus.Error(err)
 		go s.reconnect()
 		return
 	}
