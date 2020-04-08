@@ -3,7 +3,6 @@ package discord
 import (
 	"bytes"
 	"net/http"
-	"github.com/sirupsen/logrus"
 
 	"github.com/baileyjm02/jexia-discord-bot/internal/pkg/events"
 )
@@ -20,14 +19,13 @@ func StartSubscriber() {
 	for {
 		select {
 		case d := <-sendResponse:
-			go send(d.Data)
+			go sendMessage(d.Data)
 		}
 	}
 }
 
 // TODO: Add comment
-func send(payload interface{}) {
-	logrus.Println("handling")
+func sendMessage(payload interface{}) {
 	var data []byte
 	var url string
 	switch v := payload.(type) {
