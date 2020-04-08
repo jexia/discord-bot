@@ -1,5 +1,5 @@
 language: golang
 port: 80
 run:
-  - go build -o bot-binary ./cmd/jexia-discord-bot
-  - ./bot-binary
+  - go build -o jexia-discord-bot-binary ./cmd/jexia-discord-bot
+  - ./jexia-discord-bot-binary
