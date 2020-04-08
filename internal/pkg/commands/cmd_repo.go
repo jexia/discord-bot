@@ -7,8 +7,8 @@ import (
 	"github.com/baileyjm02/jexia-discord-bot/internal/pkg/discord"
 )
 
-// TODO: Add comments
-func RepoCommand(m discord.Message, parameters []string) (discord.APIPayload, error) {
+// repoCommand allows the user to subscribe to new github events in their channel
+func repoCommand(m discord.Message, parameters []string) (discord.APIPayload, error) {
 	var payload discord.APIPayload
 	var val string
 
@@ -26,7 +26,7 @@ func RepoCommand(m discord.Message, parameters []string) (discord.APIPayload, er
 	return payload, err
 }
 
-// TODO: Add comments
+// This init command registers the repo command to the array of Commands so it can be called
 func init() {
 	repo := Command{
 		"repo",

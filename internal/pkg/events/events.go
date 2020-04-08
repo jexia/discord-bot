@@ -4,7 +4,7 @@ import (
 	"sync"
 )
 
-// TODO: Add comments
+// Queue contains an array of all subscribable channels
 var Queue = &EventBus{
 	subscribers: map[string]DataChannelSlice{},
 }
@@ -16,13 +16,14 @@ type EventBus struct {
 	rm          sync.RWMutex
 }
 
-// TODO: Add comments
+// Bus an interface for publishing and subscribing to events
 type Bus interface {
 	Publish(topic string, data interface{})
 	Subscribe(topic string, ch DataChannel)
 }
 
-// TODO: Add comments
+// DataEvent is the type sent over an event, importantly it contains the topic name as there
+// are multiple channels
 type DataEvent struct {
 	Data  interface{}
 	Topic string
@@ -34,7 +35,7 @@ type DataChannel chan DataEvent
 // DataChannelSlice is a slice of DataChannels
 type DataChannelSlice []DataChannel
 
-// TODO: Add comments
+// Publish pushes events onto the event channel matching the topic name
 func (eb *EventBus) Publish(topic string, data interface{}) {
 	eb.rm.RLock()
 	if chans, found := eb.subscribers[topic]; found {
@@ -50,7 +51,7 @@ func (eb *EventBus) Publish(topic string, data interface{}) {
 	eb.rm.RUnlock()
 }
 
-// TODO: Add comments
+// Subscribe allows channels to be watched as events to be received
 func (eb *EventBus) Subscribe(topic string, ch DataChannel) {
 	eb.rm.Lock()
 	if prev, found := eb.subscribers[topic]; found {

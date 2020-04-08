@@ -24,7 +24,8 @@ func StartSubscriber() {
 	}
 }
 
-// TODO: Add comment
+// sendMessage matches the payload to its type and then uses the Discord API to send it to
+// correct channel passed
 func sendMessage(payload interface{}) {
 	var data []byte
 	var url string

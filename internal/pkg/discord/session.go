@@ -13,11 +13,13 @@ import (
 )
 
 var (
-	Token  string
+	// Token is the string used for authenticating agains Discord's websocket
+	Token string
+	// Prefix is the value to prefix commands so they are recognised
 	Prefix string
 )
 
-// TODO: Add comments
+// Session is the type which holds Discord's current session
 type Session struct {
 	Ctx      context.Context
 	URL      string
@@ -29,7 +31,8 @@ type Session struct {
 	Prefix   string
 }
 
-// TODO: Add comments
+// startHeartbeat is a helper function that sends a payload every X milliseconds as
+// requested by Discord
 func (s *Session) startHeartbeat() {
 	for {
 		time.Sleep(s.Interval * time.Millisecond)
@@ -41,7 +44,7 @@ func (s *Session) startHeartbeat() {
 	}
 }
 
-// TODO: Add comments
+// send is a helper function to send a payload back over the websocket
 func (s *Session) send(payload interface{}) error {
 	err := wsjson.Write(s.Ctx, s.Conn, payload)
 	if err != nil {
@@ -50,7 +53,7 @@ func (s *Session) send(payload interface{}) error {
 	return err
 }
 
-// TODO: Add comments
+// read is a helper function to read all payloads sent accross the websocket
 func (s *Session) read() (Payload, error) {
 	var payload Payload
 	err := wsjson.Read(s.Ctx, s.Conn, &payload)
@@ -61,46 +64,46 @@ func (s *Session) read() (Payload, error) {
 	return payload, nil
 }
 
-// TODO: Add comments
-func (s *Session) Spin(exit chan bool) {
+// spin continuously loops and accepts any incoming payloads
+func (s *Session) spin(exit chan bool) {
 	for {
-		err := s.Accept()
+		err := s.accept()
 		if err != nil {
-			s.Reconnect()
+			s.reconnect()
 			exit <- true
 			break
 		}
 	}
 }
 
-// TODO: Add comments
-func (s *Session) Accept() error {
+// accept takes the payload, requests it to be read and passes it
+// onto the deploy function where it is handled
+func (s *Session) accept() error {
 	payload, err := s.read()
 	if err != nil {
 		// return err - no need to return this error
 		return nil
 		log.Println(err)
 	}
-	// log.Printf("Got message: %#v\n", payload)
-	go s.Deploy(payload)
+	go s.deploy(payload)
 	return nil
 }
 
-// TODO: Add comments
-func (s *Session) Deploy(payload Payload) {
+// deploy handles the payload and calls functions based on the payload event
+func (s *Session) deploy(payload Payload) {
 	s.Sequence = payload.Sequence
 	switch payload.OPCode {
 
 	// Reconnect
 	case 7:
 		{
-			go s.Reconnect()
+			go s.reconnect()
 		}
 
 	// InvalID Session
 	case 9:
 		{
-			go s.Reconnect()
+			go s.reconnect()
 		}
 
 	// Heartbeat ACK
@@ -117,7 +120,7 @@ func (s *Session) Deploy(payload Payload) {
 			data := mID.(map[string]interface{})
 			s.Interval = time.Duration(data["heartbeat_interval"].(float64))
 			go s.startHeartbeat()
-			go s.IdentifySelf()
+			go s.identifySelf()
 		}
 
 	// Dispatch
@@ -145,14 +148,16 @@ func (s *Session) Deploy(payload Payload) {
 	}
 }
 
-// TODO: Add comments
-func (s *Session) Reconnect() {
+// reconnect is a helper function that waits 500 milliseconds and calls the connect
+// function again
+func (s *Session) reconnect() {
 	time.Sleep(500 * time.Millisecond)
 	s.Connect()
 }
 
-// TODO: Add comments
-func (s *Session) IdentifySelf() {
+// identifySelf is a helper command which sends the credentials of the bot to
+// Discord so it can be authenticated correctly
+func (s *Session) identifySelf() {
 	data, err := json.Marshal(map[string]interface{}{
 		"token": s.Token,
 		"properties": map[string]string{
@@ -184,7 +189,7 @@ func (s *Session) IdentifySelf() {
 	}
 }
 
-// TODO: Add comments
+// Connect dials Discord's websocket and creates a connection within the session
 func (s *Session) Connect() {
 	// Set global variables
 	Token = s.Token
@@ -196,14 +201,14 @@ func (s *Session) Connect() {
 	c, _, err := websocket.Dial(s.Ctx, s.URL, nil)
 	if err != nil {
 		log.Println(err)
-		go s.Reconnect()
+		go s.reconnect()
 		return
 	}
 	s.Conn = c
 
 	for {
 		exit := make(chan bool)
-		go s.Spin(exit)
+		go s.spin(exit)
 		<-exit
 	}
 

@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-// TODO: Add comments
+// Webhook is the payload GitHub sends on a webhook event
 type Webhook struct {
 	Action     string     `json:"action"`
 	Release    Release    `json:"release"`
@@ -12,7 +12,7 @@ type Webhook struct {
 	Sender     Sender     `json:"sender"`
 }
 
-// TODO: Add comments
+// Release is the data sent when the event of the payload is a repository release
 type Release struct {
 	ID          int       `json:"id"`
 	URL         string    `json:"url"`
@@ -32,7 +32,7 @@ type Release struct {
 	PublishedAt time.Time `json:"published_at"`
 }
 
-// TODO: Add comments
+// Repository is the data related to a GitHub repository
 type Repository struct {
 	Name        string `json:"name"`
 	FullName    string `json:"full_name"`
@@ -41,13 +41,13 @@ type Repository struct {
 	Description string `json:"description"`
 }
 
-// TODO: Add comments
+// Sender is the data related to the GitHub event creator, can be a user or a bot
 type Sender struct {
 	Username  string `json:"login"`
 	AvatarURL string `json:"avatar_url"`
 }
 
-// TODO: Add comments
+// Owner is the data related to the GitHub repository owner, can be a user or and organisation
 type Owner struct {
 	AvatarURL string `json:"avatar_url"`
 }

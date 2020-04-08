@@ -7,12 +7,14 @@ import (
 	"github.com/baileyjm02/jexia-discord-bot/internal/pkg/events"
 )
 
-// TODO: Add comments
+// StartWatching is a helper function that will call all events allowing
+// then to subscribe then to their related event
 func StartWatching() {
 	go StartWatchingGithubReleases()
 }
 
-// TODO: Add comments
+// WebhookListener is the endpoint for which the GitHub webhook events should be sent
+// It checks if we support the sent event and handles it accordingly
 func WebhookListener(rw http.ResponseWriter, req *http.Request) {
 	decoder := json.NewDecoder(req.Body)
 	switch event := req.Header.Get("X-GitHub-Event"); event {
@@ -23,8 +25,10 @@ func WebhookListener(rw http.ResponseWriter, req *http.Request) {
 			panic(err)
 		}
 		events.Queue.Publish("github.release", wh)
+		rw.WriteHeader(204)
+		return
 	default:
-		rw.WriteHeader(400) // Return 400 Bad Request.
+		rw.WriteHeader(501) // Return 501 Not Implemented Request as we don't support that function
 		return
 	}
 }

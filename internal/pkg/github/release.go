@@ -8,7 +8,7 @@ import (
 	"github.com/baileyjm02/jexia-discord-bot/internal/pkg/events"
 )
 
-// TODO: Add comments
+// StartWatchingGithubReleases subscribes to the GitHub release event channel
 func StartWatchingGithubReleases() {
 	githubRelease := make(chan events.DataEvent)
 	events.Queue.Subscribe("github.release", githubRelease)
@@ -21,7 +21,8 @@ func StartWatchingGithubReleases() {
 	}
 }
 
-// TODO: Add comments
+// handleGithubRelease is a helper function to create the embed that will be sent 
+// to Discord containing event data
 func handleGithubRelease(wh Webhook) {
 	if wh.Action != "published" {
 		return

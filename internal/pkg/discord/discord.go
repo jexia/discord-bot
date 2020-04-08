@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-// TODO: Add comments
+// Payload is a simple structure used to receive and send events over the websocket
 type Payload struct {
 	OPCode   int             `json:"op"`
 	Data     json.RawMessage `json:"d"`
@@ -14,7 +14,7 @@ type Payload struct {
 	Event    string          `json:"t,omitempty"`
 }
 
-// TODO: Add comments
+// Heartbeat is the type used to send a heartbeat back over the Discord websocket
 type Heartbeat struct {
 	OPCode int `json:"op"`
 	Data   int `json:"d"`
@@ -29,7 +29,7 @@ func (t Timestamp) Parse() (time.Time, error) {
 	return time.Parse(time.RFC3339, string(t))
 }
 
-// TODO: Add comments
+// Message is Discord's message structure
 type Message struct {
 	ID              string      `json:"id,omitempty"`               // id of the message
 	ChannelID       string      `json:"channel_id,omitempty"`       // id of the channel the message was sent in
@@ -45,6 +45,8 @@ type Message struct {
 	Type            int         `json:"type,omitempty"`             // integer type of message
 	Embed           interface{} `json:"embed,omitempty"`            // array of embed objects any embedded content
 
+	// Values yet to be implemented as they are not yet needed
+
 	// Activity        []Activity    `json:"activity,omitempty"`         // (?) message activity object sent with Rich Presence-related chat embeds
 	// Application     []Application `json:"application,omitempty"`      // (?) message application object sent with Rich Presence-related chat embeds
 	// Author          User          `json:"author,omitempty"`           //* user object the author of this message (not guaranteed to be a valid user, see below)
@@ -55,13 +57,13 @@ type Message struct {
 	// Mentions        []User        `json:"mentions,omitempty"`         // array of user objects, with an additional partial member field users specifically mentioned in the message
 }
 
-// TODO: Add comments
+// APIPayload is a payload for sending a text based message over Discord's API
 type APIPayload struct {
 	APIURL  string
 	Payload []byte
 }
 
-// TODO: Add comments
+// Prepare is a helper command for formatting the message to an APIPayload type
 func (p *APIPayload) Prepare(content, channel string) error {
 	payload := Message{Content: content}
 	byteArray, err := json.Marshal(payload)
@@ -74,13 +76,13 @@ func (p *APIPayload) Prepare(content, channel string) error {
 	return nil
 }
 
-// TODO: Add comments
+// APIEmbedPayload is a payload for sending an embed based message over Discord's API
 type APIEmbedPayload struct {
 	APIURL  string
 	Payload []byte
 }
 
-// TODO: Add comments
+// Prepare is a helper command for formatting the message to an APIEmbedPayload type
 func (p *APIEmbedPayload) Prepare(embed map[string]interface{}, channel string) error {
 	payload := Message{Embed: embed}
 	byteArray, err := json.Marshal(payload)
