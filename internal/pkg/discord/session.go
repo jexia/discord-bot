@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	// Token is the string used for authenticating agains Discord's websocket
+	// Token is the string used for authenticating against Discord's websocket
 	Token string
 	// Prefix is the value to prefix commands so they are recognised
 	Prefix string
@@ -53,7 +53,7 @@ func (s *Session) send(payload interface{}) error {
 	return err
 }
 
-// read is a helper function to read all payloads sent accross the websocket
+// read is a helper function to read all payloads sent across the websocket
 func (s *Session) read() (Payload, error) {
 	var payload Payload
 	err := wsjson.Read(s.Ctx, s.Conn, &payload)
