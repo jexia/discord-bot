@@ -21,7 +21,7 @@ func StartWatchingGithubReleases() {
 	}
 }
 
-// handleGithubRelease is a helper function to create the embed that will be sent 
+// handleGithubRelease is a helper function to create the embed that will be sent
 // to Discord containing event data
 func handleGithubRelease(wh Webhook) {
 	if wh.Action != "published" {
