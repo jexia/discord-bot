@@ -1,4 +1,4 @@
-package types
+package discord
 
 import (
 	"encoding/json"
@@ -56,14 +56,33 @@ type Message struct {
 }
 
 // TODO: Add comments
-type DiscordAPIPayload struct {
+type APIPayload struct {
 	APIURL  string
 	Payload []byte
 }
 
 // TODO: Add comments
-func (p *DiscordAPIPayload) Prepare(content, channel string) (error) {
+func (p *APIPayload) Prepare(content, channel string) (error) {
 	payload := Message{Content: content}
+	byteArray, err := json.Marshal(payload)
+	if err != nil {
+		panic(err)
+		return err
+	}
+	p.Payload = byteArray
+	p.APIURL = fmt.Sprintf("/channels/%v/messages", channel)
+	return nil
+}
+
+// TODO: Add comments
+type APIEmbedPayload struct {
+	APIURL  string
+	Payload []byte
+}
+
+// TODO: Add comments
+func (p *APIEmbedPayload) Prepare(embed map[string]interface{}, channel string) (error) {
+	payload := Message{Embed: embed}
 	byteArray, err := json.Marshal(payload)
 	if err != nil {
 		panic(err)

@@ -1,4 +1,8 @@
-package types
+package commands
+
+import (
+	"github.com/baileyjm02/jexia-discord-bot/internal/pkg/discord"
+)
 
 // TODO: Add comments
 type Command struct {
@@ -10,7 +14,7 @@ type Command struct {
 	Args        map[string]bool
 	OwnerOnly   bool
 	Enabled     bool
-	Run         func(m Message, parameters []string) (DiscordAPIPayload, error)
+	Run         func(m discord.Message, parameters []string) (discord.APIPayload, error)
 }
 
 var (

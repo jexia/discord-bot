@@ -2,37 +2,37 @@ package github
 
 import (
 	"fmt"
+	"os"
 
-	"github.com/baileyjm02/jexia-discord-bot/internal/types"
+	"github.com/baileyjm02/jexia-discord-bot/internal/pkg/events"
+	"github.com/baileyjm02/jexia-discord-bot/internal/pkg/discord"
 )
 
 // TODO: Add comments
 func StartWatchingGithubReleases() {
-	githubRelease := make(chan types.DataEvent)
-	types.Queue.Subscribe("github.release", githubRelease)
+	githubRelease := make(chan events.DataEvent)
+	events.Queue.Subscribe("github.release", githubRelease)
 	for {
-
 		select {
 
 		case d := <-githubRelease:
-			go handleGithubRelease(d.Data.(types.Webhook))
-
+			go handleGithubRelease(d.Data.(Webhook))
 		}
 	}
 }
 
 // TODO: Add comments
-func handleGithubRelease(wh types.Webhook) {
+func handleGithubRelease(wh Webhook) {
 	if wh.Action != "published" {
 		return
 	}
-	
-	DiscordAPIPayload := createDiscordAPIPayload(map[string]interface{}{
+	var payload discord.APIEmbedPayload
+	_ = payload.Prepare(map[string]interface{}{
 		"color": 0xF9B200,
 		"title": fmt.Sprintf("%v (%v)", wh.Release.Name, wh.Release.TagName),
 		// "url": "https://jexia.com",
 		"author": map[string]string{
-			"name": fmt.Sprintf("New release of %v", wh.Repository.FullName),
+			"name":     fmt.Sprintf("New release of %v", wh.Repository.FullName),
 			"icon_url": wh.Repository.Owner.AvatarURL,
 			"url":      wh.Release.HTMLURL,
 		},
@@ -49,7 +49,7 @@ func handleGithubRelease(wh types.Webhook) {
 		"footer": map[string]string{
 			"text": "Sent via Github",
 		},
-	})
+	}, os.Getenv("channel"))
 
-	types.Queue.Publish("discord.send_response", DiscordAPIPayload)
+	events.Queue.Publish("discord.send_response", payload)
 }

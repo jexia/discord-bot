@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/baileyjm02/jexia-discord-bot/internal/types"
+	"github.com/baileyjm02/jexia-discord-bot/internal/pkg/discord"
 )
 
 // TODO: Add comment
-func pingCommand(m types.Message, parameters []string) (types.DiscordAPIPayload, error) {
+func pingCommand(m discord.Message, parameters []string) (discord.APIPayload, error) {
 	var check time.Time
-	var payload types.DiscordAPIPayload
+	var payload discord.APIPayload
 	editedAt, _ := m.EditedAt.Parse()
 	sent, _ := m.SentAt.Parse()
 
@@ -26,7 +26,7 @@ func pingCommand(m types.Message, parameters []string) (types.DiscordAPIPayload,
 
 // TODO: Add comment
 func init() {
-	ping := types.Command{
+	ping := Command{
 		"ping",
 		"ping",
 		"see how long the bot takes to respond.",

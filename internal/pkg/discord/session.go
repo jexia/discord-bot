@@ -1,4 +1,5 @@
-package types
+package discord
+
 import (
 	"context"
 	"encoding/json"
@@ -7,12 +8,14 @@ import (
 
 	"nhooyr.io/websocket"
 	"nhooyr.io/websocket/wsjson"
+
+	"github.com/baileyjm02/jexia-discord-bot/internal/pkg/events"
 )
 
-// TODO: Add comments
-var Token string
-// TODO: Add comments
-var Prefix string
+var (
+	Token string
+	Prefix string
+)
 
 // TODO: Add comments
 type Session struct {
@@ -23,6 +26,7 @@ type Session struct {
 	Sequence int
 	ID       string
 	Token    string
+	Prefix   string
 }
 
 // TODO: Add comments
@@ -74,7 +78,7 @@ func (s *Session) Accept() error {
 	payload, err := s.read()
 	if err != nil {
 		// return err - no need to return this error
-		return nil		
+		return nil
 		log.Println(err)
 	}
 	// log.Printf("Got message: %#v\n", payload)
@@ -130,7 +134,7 @@ func (s *Session) Deploy(payload Payload) {
 				case "MESSAGE_CREATE":
 					var message Message
 					json.Unmarshal(payload.Data, &message)
-					Queue.Publish("discord.message_create", message)
+					events.Queue.Publish("discord.message_create", message)
 					var err error
 					if err != nil {
 						log.Println(err)
@@ -182,6 +186,10 @@ func (s *Session) IdentifySelf() {
 
 // TODO: Add comments
 func (s *Session) Connect() {
+	// Set global variables
+	Token = s.Token
+	Prefix = s.Prefix
+	
 	Ctx := context.Background()
 	s.Ctx = Ctx
 

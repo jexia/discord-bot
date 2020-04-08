@@ -4,16 +4,16 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/baileyjm02/jexia-discord-bot/internal/types"
+	"github.com/baileyjm02/jexia-discord-bot/internal/pkg/discord"
 )
 
 // TODO: Add comments
-func RepoCommand(m types.Message, parameters []string) (types.DiscordAPIPayload, error) {
-	var payload types.DiscordAPIPayload
+func RepoCommand(m discord.Message, parameters []string) (discord.APIPayload, error) {
+	var payload discord.APIPayload
 	var val string
 
 	if len(parameters) < 1 {
-		return types.DiscordAPIPayload{}, errors.New("No parameters passed.")
+		return discord.APIPayload{}, errors.New("No parameters passed.")
 	}
 
 	if parameters[0] == "add" {
@@ -28,7 +28,7 @@ func RepoCommand(m types.Message, parameters []string) (types.DiscordAPIPayload,
 
 // TODO: Add comments
 func init() {
-	repo := types.Command{
+	repo := Command{
 		"repo",
 		"repo",
 		"add or remove repos.",
