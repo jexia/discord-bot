@@ -9,7 +9,7 @@ import (
 	"nhooyr.io/websocket"
 	"nhooyr.io/websocket/wsjson"
 
-	"github.com/baileyjm02/jexia-discord-bot/internal/pkg/events"
+	"github.com/jexia/discord-bot/internal/pkg/events"
 )
 
 var (

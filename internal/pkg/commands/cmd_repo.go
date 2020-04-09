@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/baileyjm02/jexia-discord-bot/internal/pkg/discord"
+	"github.com/jexia/discord-bot/internal/pkg/discord"
 )
 
 // repoCommand allows the user to subscribe to new github events in their channel

@@ -1,7 +1,7 @@
 package commands
 
 import (
-	"github.com/baileyjm02/jexia-discord-bot/internal/pkg/discord"
+	"github.com/jexia/discord-bot/internal/pkg/discord"
 )
 
 // Command is a type which contains namely the runable function and name of the command

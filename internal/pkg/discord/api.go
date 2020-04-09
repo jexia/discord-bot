@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"net/http"
 
-	"github.com/baileyjm02/jexia-discord-bot/internal/pkg/events"
+	"github.com/jexia/discord-bot/internal/pkg/events"
 )
 
 // StartSubscriber subscribes to the discord message_create event on the queue and

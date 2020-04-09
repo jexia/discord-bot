@@ -6,9 +6,9 @@ import (
 
 	"github.com/sirupsen/logrus"
 
-	"github.com/baileyjm02/jexia-discord-bot/internal/pkg/commands"
-	"github.com/baileyjm02/jexia-discord-bot/internal/pkg/discord"
-	"github.com/baileyjm02/jexia-discord-bot/internal/pkg/github"
+	"github.com/jexia/discord-bot/internal/pkg/commands"
+	"github.com/jexia/discord-bot/internal/pkg/discord"
+	"github.com/jexia/discord-bot/internal/pkg/github"
 )
 
 // Start initiates the HTTP server for webhooks and requests the bot to start

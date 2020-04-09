@@ -1,4 +1,4 @@
-module github.com/baileyjm02/jexia-discord-bot
+module github.com/jexia/discord-bot
 
 go 1.14
 

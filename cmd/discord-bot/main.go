@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/baileyjm02/jexia-discord-bot/internal/bot"
-	"github.com/baileyjm02/jexia-discord-bot/internal/pkg/logger"
+	"github.com/jexia/discord-bot/internal/bot"
+	"github.com/jexia/discord-bot/internal/pkg/logger"
 )
 
 func main() {
