@@ -68,7 +68,6 @@ func (p *APIPayload) Prepare(content, channel string) error {
 	payload := Message{Content: content}
 	byteArray, err := json.Marshal(payload)
 	if err != nil {
-		panic(err)
 		return err
 	}
 	p.Payload = byteArray
