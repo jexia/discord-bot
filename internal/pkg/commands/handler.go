@@ -3,6 +3,7 @@ package commands
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/jexia/discord-bot/internal/pkg/discord"
 	"github.com/jexia/discord-bot/internal/pkg/events"
@@ -67,8 +68,9 @@ func runCommand(m discord.Message, command []string) {
 		}()
 		// Removes the command name from the array of parameters
 		parameters := command[1:]
-		// Runs the command using the function passed through into the type
-		response, err := cmd.Run(m, parameters)
+		// Runs the command using the function passed through into the type, we pass time here so we can test
+		// functions correctly
+		response, err := cmd.Run(m, parameters, time.Now())
 		// Handles an _expected_ error
 		if err != nil {
 			handleError(m, fmt.Sprintf("Command Error: `%v`", err.Error()))
