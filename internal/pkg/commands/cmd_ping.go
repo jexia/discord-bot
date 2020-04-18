@@ -21,15 +21,15 @@ func pingCommand(m discord.Message, parameters []string, received time.Time) (di
 // This init command registers the ping command to the array of Commands so it can be called
 func init() {
 	ping := Command{
-		"ping",
-		"ping",
-		"see how long the bot takes to respond.",
-		"General",
-		false,
-		map[string]bool{},
-		false,
-		true,
-		pingCommand,
+		Name:        "ping",
+		Usage:       "ping",
+		Description: "see how long the bot takes to respond.",
+		Category:    "General",
+		NeedArgs:    false,
+		Args:        map[string]bool{},
+		OwnerOnly:   false,
+		Enabled:     true,
+		Run:         pingCommand,
 	}
 
 	ping.Register()
