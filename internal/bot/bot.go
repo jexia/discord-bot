@@ -24,7 +24,7 @@ func Start() {
 	go commands.StartSubscriber()
 
 	// Add the endpoint for github webhook payloads
-	http.HandleFunc("/github", github.WebhookListener)
+	http.HandleFunc("/github/", github.WebhookListener)
 
 	// Start the HTTP server ()
 	address := os.Getenv("address")
