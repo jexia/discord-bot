@@ -1,0 +1,18 @@
+name: Deploy to Jexia
+# This workflow is triggered when a push is created for the master branch.
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: jexia/deploy-action@v1
+        with:
+          email: baileyjmatthews@gmail.com
+          password: ${{ secrets.JEXIA_USER_PASSWORD }}
+          project_id: 52b4bd4f-832f-4bee-ba33-6f6098764e5c
+          app_id: bdaef066-bcf6-4500-b33d-99bee34c9511
