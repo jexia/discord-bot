@@ -1,6 +1,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/jexia/discord-bot?style=flat-square)](https://goreportcard.com/report/github.com/jexia/discord-bot)
 [![Go Doc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://pkg.go.dev/github.com/jexia/discord-bot)
 [![Release](https://img.shields.io/github/release/jexia/discord-bot.svg?style=flat-square)](https://github.com/jexia/discord-bot/releases/latest)
+[![Chat on Discord](https://img.shields.io/badge/chat-on%20discord-7289da.svg?style=flat-square&sanitize=true)](https://chat.jexia.com)
 
 # Jexia Discord Bot
 
