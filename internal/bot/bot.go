@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/sirupsen/logrus"
+	"github.com/julienschmidt/httprouter"
 
 	"github.com/jexia/discord-bot/internal/pkg/commands"
 	"github.com/jexia/discord-bot/internal/pkg/discord"
@@ -24,9 +25,10 @@ func Start() {
 	go commands.StartSubscriber()
 
 	// Add the endpoint for github webhook payloads
-	http.HandleFunc("/github/", github.WebhookListener)
+	router := httprouter.New()
+	router.POST("/github/:channelID", github.WebhookListener)
 
 	// Start the HTTP server ()
 	address := os.Getenv("address")
-	logrus.Fatal(http.ListenAndServe(address, nil))
+	logrus.Fatal(http.ListenAndServe(address, router))
 }
