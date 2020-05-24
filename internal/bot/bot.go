@@ -3,9 +3,10 @@ package bot
 import (
 	"net/http"
 	"os"
+	"time"
 
-	"github.com/sirupsen/logrus"
 	"github.com/julienschmidt/httprouter"
+	"github.com/sirupsen/logrus"
 
 	"github.com/jexia/discord-bot/internal/pkg/commands"
 	"github.com/jexia/discord-bot/internal/pkg/discord"
@@ -29,6 +30,15 @@ func Start() {
 	router.POST("/github/:channelID", github.WebhookListener)
 
 	// Start the HTTP server ()
-	address := os.Getenv("address")
-	logrus.Fatal(http.ListenAndServe(address, router))
+	server := &http.Server{
+		Addr:           os.Getenv("address"),
+		Handler:        router,
+		ReadTimeout:  5 * time.Second,
+		WriteTimeout: 10 * time.Second,
+	}
+
+	err := server.ListenAndServe()
+	if err != nil && err != http.ErrServerClosed {
+		logrus.Fatal(err)
+	}
 }
