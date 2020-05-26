@@ -10,6 +10,7 @@ type Webhook struct {
 	Release    Release    `json:"release"`
 	Repository Repository `json:"repository"`
 	Sender     Sender     `json:"sender"`
+	ChannelID  string     `json:"-"`
 }
 
 // Release is the data sent when the event of the payload is a repository release

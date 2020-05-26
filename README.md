@@ -11,12 +11,11 @@ A Discord bot covering all of the functions needed on Jexia's Discord server.
 | --------- | -------------------------------------------------------------------------- | -------------------- |
 | `token`   | The token provided by Discord to authenticate the gateway and API requests | _Discord Token_      |
 | `prefix`  | The value prefixing the commands that are called though a Discord message  | `!`                  |
-| `channel` | **(Depreciated)** The channel ID where the event message will be sent      | _Discord Channel ID_ |
 | `address` | The value of the API server                                                | `0.0.0.0:80`         |
 
 | Endpoints | Description                                                                                                 | Events Supported |
 | --------- | ----------------------------------------------------------------------------------------------------------- | ---------------- |
-| `/github` | This is the endpoint for receiving GitHub's webhook payload events. Should be added as if it was a webhook. | `release`        |
+| `/github/{channelID}` | This is the endpoint for receiving GitHub's webhook payload events. Should be added as if it was a webhook. The message will be sent the the Discord channel matching channelID. | `release`        |
 
 | Commands | Description                                                        | Permissions Required |
 | -------- | ------------------------------------------------------------------ | -------------------- |

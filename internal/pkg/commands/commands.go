@@ -1,6 +1,8 @@
 package commands
 
 import (
+	"time"
+
 	"github.com/jexia/discord-bot/internal/pkg/discord"
 )
 
@@ -14,7 +16,7 @@ type Command struct {
 	Args        map[string]bool
 	OwnerOnly   bool
 	Enabled     bool
-	Run         func(m discord.Message, parameters []string) (discord.APIPayload, error)
+	Run         func(m discord.Message, parameters []string, time time.Time) (discord.APIPayload, error)
 }
 
 var (

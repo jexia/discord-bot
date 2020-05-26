@@ -8,17 +8,11 @@ import (
 )
 
 // pingCommand is a simple command returning the response time of the bot
-func pingCommand(m discord.Message, parameters []string) (discord.APIPayload, error) {
-	var check time.Time
+func pingCommand(m discord.Message, parameters []string, received time.Time) (discord.APIPayload, error) {
 	var payload discord.APIPayload
-	editedAt, _ := m.EditedAt.Parse()
 	sent, _ := m.SentAt.Parse()
 
-	if editedAt != check {
-		sent = editedAt
-	}
-
-	elapsed := time.Since(sent)
+	elapsed := received.Sub(sent)
 	val := fmt.Sprintf("Pong! `%vms`", int64(elapsed/time.Millisecond))
 	err := payload.Prepare(val, m.ChannelID)
 	return payload, err
@@ -27,15 +21,15 @@ func pingCommand(m discord.Message, parameters []string) (discord.APIPayload, er
 // This init command registers the ping command to the array of Commands so it can be called
 func init() {
 	ping := Command{
-		"ping",
-		"ping",
-		"see how long the bot takes to respond.",
-		"General",
-		false,
-		map[string]bool{},
-		false,
-		true,
-		pingCommand,
+		Name:        "ping",
+		Usage:       "ping",
+		Description: "see how long the bot takes to respond.",
+		Category:    "General",
+		NeedArgs:    false,
+		Args:        map[string]bool{},
+		OwnerOnly:   false,
+		Enabled:     true,
+		Run:         pingCommand,
 	}
 
 	ping.Register()

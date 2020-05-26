@@ -3,12 +3,13 @@ package commands
 import (
 	"errors"
 	"fmt"
-
+	"time"
+	
 	"github.com/jexia/discord-bot/internal/pkg/discord"
 )
 
 // repoCommand allows the user to subscribe to new github events in their channel
-func repoCommand(m discord.Message, parameters []string) (discord.APIPayload, error) {
+func repoCommand(m discord.Message, parameters []string, received time.Time) (discord.APIPayload, error) {
 	var payload discord.APIPayload
 	var val string
 

@@ -2,8 +2,7 @@ package github
 
 import (
 	"fmt"
-	"os"
-
+	
 	"github.com/jexia/discord-bot/internal/pkg/discord"
 	"github.com/jexia/discord-bot/internal/pkg/events"
 )
@@ -50,7 +49,7 @@ func handleGithubRelease(wh Webhook) {
 		"footer": map[string]string{
 			"text": "Sent via Github",
 		},
-	}, os.Getenv("channel"))
+	}, wh.ChannelID)
 
 	events.Queue.Publish("discord.send_response", payload)
 }
